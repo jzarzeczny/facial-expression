@@ -1,5 +1,7 @@
 <script lang="ts">
 	import picture from '$lib/exp/men.jpg';
+	import secondImage from '$lib/exp/secondImage.jpg';
+	import thirdImage from '$lib/exp/thirdImage.jpg';
 	const listOfBasicEmotion = [
 		'Złość/Gniew',
 		'Strach',
@@ -8,6 +10,22 @@
 		'Szczęście',
 		'Smutek'
 	];
+
+	let index = 0;
+	const listOfImages = [picture, secondImage, thirdImage];
+	function changeIndex() {
+		console.log('Changing index');
+		console.log(index);
+		if (index === listOfImages.length - 1) {
+			index = 0;
+		} else {
+			index++;
+		}
+	}
+
+	$: something = listOfImages[index];
+
+	console.log(something);
 </script>
 
 <svelte:head>
@@ -16,11 +34,11 @@
 </svelte:head>
 <section class="section">
 	<div class="image-container">
-		<img class="image" alt="Exp" src={picture} />
+		<img class="image" alt="Exp" src={something} />
 	</div>
 	<div class="option-container">
 		{#each listOfBasicEmotion as emotion}
-			<button class="button">{emotion}</button>
+			<button class="button" on:click={changeIndex}>{emotion}</button>
 		{/each}
 	</div>
 </section>
