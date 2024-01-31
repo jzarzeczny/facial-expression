@@ -17,22 +17,27 @@
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
-
-		to your new<br />SvelteKit app
 	</h1>
 
 	<h2>Test of CD</h2>
 
-	<Counter />
+	<div class="button-container">
+		<a href="instruction" class="button">Badanie</a>
+		<div class="separator"></div>
+		<a href="results" class="button">Wyniki</a>
+	</div>
 </section>
 
 <style>
 	section {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
+		padding: 1rem;
+		width: 100%;
+		max-width: 64rem;
+		margin: 0 auto;
+		box-sizing: border-box;
 	}
 
 	h1 {
@@ -53,5 +58,20 @@
 		height: 100%;
 		top: 0;
 		display: block;
+	}
+
+	.button-container {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.separator {
+		display: block;
+		width: 3px;
+		height: 55px;
+		background-color: var(--color-theme-1);
 	}
 </style>
