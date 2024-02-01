@@ -1,31 +1,27 @@
 <script lang="ts">
-	import picture from '$lib/exp/men.jpg';
-	import secondImage from '$lib/exp/secondImage.jpg';
-	import thirdImage from '$lib/exp/thirdImage.jpg';
-	const listOfBasicEmotion = [
-		'Złość/Gniew',
-		'Strach',
-		'Wstręt',
-		'Zaskoczenie',
-		'Szczęście',
-		'Smutek'
-	];
-
+	import { imageSource } from '$lib/config/imageConfig';
+	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+	import Storage from './Storage';
+	const listOfBasicEmotion = ['Anger', 'Disgust', 'Fear', 'Happiness', 'Neutrality', 'Sadness'];
 	let index = 0;
-	const listOfImages = [picture, secondImage, thirdImage];
-	function changeIndex() {
-		console.log('Changing index');
-		console.log(index);
-		if (index === listOfImages.length - 1) {
-			index = 0;
+
+	const storage = new Storage();
+
+	function handleAnswer(emotion: string) {
+		const data: ImageQuestionWithAnswer = {
+			answer: emotion,
+			...imagesRef
+		};
+
+		storage.setData(data);
+		if (index === imageSource.length - 1) {
+			console.log(storage.getData());
 		} else {
 			index++;
 		}
 	}
 
-	$: something = listOfImages[index];
-
-	console.log(something);
+	$: imagesRef = imageSource[index];
 </script>
 
 <svelte:head>
@@ -34,11 +30,11 @@
 </svelte:head>
 <section class="section">
 	<div class="image-container">
-		<img class="image" alt="Exp" src={something} />
+		<img class="image" alt="Exp" src={imagesRef.imageSrc} />
 	</div>
 	<div class="option-container">
 		{#each listOfBasicEmotion as emotion}
-			<button class="button" on:click={changeIndex}>{emotion}</button>
+			<button class="button" on:click={() => handleAnswer(emotion)}>{emotion}</button>
 		{/each}
 	</div>
 </section>
@@ -55,6 +51,7 @@
 	.image {
 		width: 100%;
 		height: 100%;
+		object-fit: contain;
 	}
 
 	.image-container {
@@ -68,5 +65,18 @@
 		justify-content: center;
 		align-items: center;
 		gap: 2rem;
+	}
+
+	.button {
+		width: 300px;
+		height: 80px;
+		font-size: 2rem;
+		border-radius: 8px;
+		background-color: transparent;
+		transition: border 1s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	.button:hover {
+		border: 2px solid var(--color-theme-1);
 	}
 </style>
