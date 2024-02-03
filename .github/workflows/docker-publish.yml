@@ -25,7 +25,11 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         run: |
-          docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker build . --build \
+          --build-arg POSTGRES_USER=POSTGRES_USER \
+          --build-arg POSTGRES_PASSWORD=POSTGRES_PASSWORD \
+          --build-arg POSTGRES_DB=POSTGRES_DB \
+          --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
   deploy:
