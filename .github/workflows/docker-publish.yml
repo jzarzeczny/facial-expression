@@ -52,6 +52,4 @@ jobs:
             echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
             docker compose pull
             docker compose up -d
-
-            rm .env
             exit
