@@ -2,7 +2,7 @@ name: publish
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', '4-add-database-to-store-the-data-after-the-test']
 
 env:
   # Use docker.io for Docker Hub if empty
