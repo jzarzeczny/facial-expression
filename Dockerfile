@@ -6,6 +6,13 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
+
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
 ARG POSTGRES_USER
 ARG POSTGRES_PASSWORD
 ARG POSTGRES_DB
@@ -13,12 +20,6 @@ ARG POSTGRES_DB
 ENV POSTGRES_USER=$POSTGRES_USER
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV POSTGRES_DB=$POSTGRES_DB
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY . .
-
-RUN node -r dotenv/config build
 
 RUN pnpm build
 
