@@ -36,16 +36,12 @@ jobs:
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
-          envs: POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
           script: |
             cd ${{ secrets.WORK_DIR }}
             docker compose pull
