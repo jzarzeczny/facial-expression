@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: frontend
+    image: ghcr.io/jzarzeczny/facial-expression-image
+    ports:
+      - '3000:3000'
+    platform: linux/amd64
+    networks:
+      - sk-network
+
+  database:
+    image: postgres:latest
+    hostname: database
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ./postgresql:/etc/postgresql # Use relative path for clarity, adjust as needed
+    networks:
+      - sk-network
+
+volumes:
+  database_data: # Use named volume instead of driver-based volume
+    driver: local
+
+networks:
+  sk-network:
+    name: sk-network
+    driver: bridge
