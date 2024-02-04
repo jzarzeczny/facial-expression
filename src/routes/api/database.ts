@@ -5,7 +5,7 @@ const { Pool } = pkg;
 
 export const pool = new Pool({
 	user: POSTGRES_USER,
-	host: 'localhost',
+	host: 'database',
 	database: POSTGRES_DB,
 	password: POSTGRES_PASSWORD,
 	port: 5432
