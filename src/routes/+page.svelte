@@ -3,6 +3,7 @@
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
 	export let data: { message: string; data?: ImageQuestionWithAnswer[] };
+	console.log(data);
 </script>
 
 <svelte:head>
