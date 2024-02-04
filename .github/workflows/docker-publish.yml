@@ -5,15 +5,16 @@ on:
     branches: ['main', '4-add-database-to-store-the-data-after-the-test']
 
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.actor }}/facial-expression-image:latest
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
 jobs:
   publish:
     name: publish image
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Login
