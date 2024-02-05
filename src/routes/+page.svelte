@@ -3,7 +3,6 @@
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
 	export let data: { message: string; data?: ImageQuestionWithAnswer[] };
-	console.log(data);
 </script>
 
 <svelte:head>
@@ -22,6 +21,9 @@
 	</h1>
 
 	<h2>{data.message}</h2>
+	<p>
+		{data.data?.length}
+	</p>
 
 	<div class="button-container">
 		<a href="instruction" class="button">Badanie</a>

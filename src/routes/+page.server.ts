@@ -4,7 +4,7 @@ import { getData } from './api/database';
 export async function load(): Promise<{ message: string; data?: ImageQuestionWithAnswer[] }> {
 	try {
 		const result = await getData();
-
+		console.log(result);
 		if (result) {
 			return {
 				message: 'Success',
