@@ -1,22 +1,40 @@
 <script lang="ts">
 	import { imageSource } from '$lib/config/imageConfig';
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+	import { onMount } from 'svelte';
 	import Storage from './Storage';
-	const listOfBasicEmotion = ['Anger', 'Disgust', 'Fear', 'Happiness', 'Neutrality', 'Sadness'];
+
 	let index = 0;
 
 	const storage = new Storage();
 
-	function handleAnswer(emotion: string) {
+	const listOfBasicEmotion = ['Anger', 'Disgust', 'Fear', 'Happiness', 'Neutrality', 'Sadness'];
+
+	onMount(() => {
+		index = storage.getData().length;
+	});
+
+	async function sendData(data: ImageQuestionWithAnswer[]) {
+		await fetch('/api/data', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+
+	async function handleAnswer(emotion: string) {
 		const data: ImageQuestionWithAnswer = {
 			answer: emotion,
 			...imagesRef
 		};
 
-		storage.setData(data);
-		if (index === imageSource.length - 1) {
-			console.log(storage.getData());
+		if (index === imageSource.length) {
+			const finalData = storage.getData();
+			await sendData(finalData);
 		} else {
+			storage.setData(data);
 			index++;
 		}
 	}

@@ -2,18 +2,19 @@ name: publish
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', '4-add-database-to-store-the-data-after-the-test']
 
 env:
-  # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.actor }}/facial-expression-image:latest
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
 jobs:
   publish:
     name: publish image
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Login
@@ -21,7 +22,11 @@ jobs:
           echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build and Publish
         run: |
-          docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker build \
+                     --build-arg POSTGRES_USER=${POSTGRES_USER} \
+                     --build-arg POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+                     --build-arg POSTGRES_DB=${POSTGRES_DB} \
+                     --tag ${REGISTRY}/${IMAGE_NAME} .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
   deploy:
@@ -32,6 +37,10 @@ jobs:
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -39,6 +48,10 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.WORK_DIR }}
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+            echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
             docker compose pull
             docker compose up -d
+            rm .env
             exit

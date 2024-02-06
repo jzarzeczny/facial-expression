@@ -1,7 +1,8 @@
-<script>
-	import Counter from './Counter.svelte';
+<script lang="ts">
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+	export let data: { message: string; data?: ImageQuestionWithAnswer[] };
 </script>
 
 <svelte:head>
@@ -19,7 +20,10 @@
 		</span>
 	</h1>
 
-	<h2>Test of CD</h2>
+	<h2>{data.message}</h2>
+	<p>
+		{data.data?.length}
+	</p>
 
 	<div class="button-container">
 		<a href="instruction" class="button">Badanie</a>
