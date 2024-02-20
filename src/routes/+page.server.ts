@@ -1,4 +1,4 @@
-import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 import { getData } from './api/database';
 
 export async function load(): Promise<{ message: string; data?: ImageQuestionWithAnswer[] }> {

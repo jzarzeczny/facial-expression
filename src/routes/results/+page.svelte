@@ -1,6 +1,19 @@
+<script lang="ts">
+	import ResultCard from '$lib/components/ResultCard.svelte';
+	import type { Results } from '$lib/interfaces/image';
+	import type { CorrectAnswer, IncorrectAnswer } from '$lib/interfaces/information';
+
+	export let data: CorrectAnswer<Results> | IncorrectAnswer;
+	let answers: Results[];
+
+	if (data.message === 'Success') {
+		answers = data.data;
+	}
+</script>
+
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>Result page</title>
+	<meta name="description" content="Test results" />
 </svelte:head>
 
 <div class="text-column">
@@ -23,4 +36,8 @@
 		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
 		using it with JavaScript disabled!
 	</p>
+	{#if answers}
+		{#each answers as singleData}
+			<ResultCard {singleData} />{/each}
+	{/if}
 </div>

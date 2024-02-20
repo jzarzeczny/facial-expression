@@ -1,5 +1,5 @@
 import * as images from '$lib/experimentAssets/index.mjs';
-import type { ImageQuestion } from '$lib/interfaces/imageInterface';
+import type { ImageQuestion } from '$lib/interfaces/image';
 
 export const imageSource: ImageQuestion[] = [
 	{ imageSrc: images.image13, imageName: '079_o_f_a_a' },
