@@ -17,7 +17,7 @@ export const chartData: ChartInterface = {
 };
 
 const dataset = {
-	label: '% of Votes',
+	label: 'number of Votes',
 	data: [],
 	backgroundColor: [
 		'rgba(255, 134,159,0.4)',
