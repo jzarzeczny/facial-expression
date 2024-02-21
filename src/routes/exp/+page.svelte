@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { imageSource } from '$lib/config/imageConfig';
-	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+	import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 	import { onMount } from 'svelte';
 	import Storage from './Storage';
 

@@ -1,4 +1,4 @@
-import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 
 export default class Storage {
 	private name = 'facialExpressionAnswer';

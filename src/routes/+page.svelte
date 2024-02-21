@@ -1,7 +1,7 @@
 <script lang="ts">
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
-	import type { ImageQuestionWithAnswer } from '$lib/interfaces/imageInterface';
+	import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 	export let data: { message: string; data?: ImageQuestionWithAnswer[] };
 </script>
 
