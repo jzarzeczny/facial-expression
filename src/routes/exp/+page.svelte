@@ -3,6 +3,7 @@
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 	import { onMount } from 'svelte';
 	import Storage from './Storage';
+	import { goto } from '$app/navigation';
 
 	let index = 0;
 
@@ -11,7 +12,7 @@
 	const listOfBasicEmotion = ['Anger', 'Disgust', 'Fear', 'Happiness', 'Neutrality', 'Sadness'];
 
 	onMount(() => {
-		index = storage.getData().length;
+		index = storage.getData('facialExpressionAnswer').length;
 	});
 
 	async function sendData(data: ImageQuestionWithAnswer[]) {
@@ -30,13 +31,21 @@
 			...imagesRef
 		};
 
-		if (index === imageSource.length) {
-			const finalData = storage.getData();
-			await sendData(finalData);
-		} else {
-			storage.setData(data);
-			index++;
+		const isDataSubmitted = storage.getData<boolean>('dataSubmitted');
+
+		if (index !== imageSource.length) {
+			storage.setData('facialExpressionAnswer', data);
+			return index++;
 		}
+
+		if (!isDataSubmitted) {
+			const finalData = storage.getData<ImageQuestionWithAnswer>('facialExpressionAnswer');
+			await sendData(finalData);
+			storage.setData('dataSubmitted', true);
+			return goto('/end');
+		}
+
+		return goto('/results');
 	}
 
 	$: imagesRef = imageSource[index];
