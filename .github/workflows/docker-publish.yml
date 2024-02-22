@@ -2,7 +2,7 @@ name: publish
 
 on:
   push:
-    branches: ['main', '9-prepare-the-result-page-with-some-lovely-diagrams']
+    branches: ['main']
 
 env:
   REGISTRY: ghcr.io

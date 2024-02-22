@@ -1,16 +1,14 @@
-import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
+type StorageType = 'facialExpressionAnswer' | 'dataSubmitted';
 
 export default class Storage {
-	private name = 'facialExpressionAnswer';
-
-	getData(): ImageQuestionWithAnswer[] {
-		const lsData = localStorage.getItem(this.name) ?? '';
+	getData<T>(storageType: StorageType): T[] {
+		const lsData = localStorage.getItem(storageType) ?? '';
 		return lsData ? JSON.parse(lsData) : [];
 	}
 
-	setData(answer: ImageQuestionWithAnswer) {
-		const newData = this.getData();
+	setData<T>(storageType: StorageType, answer: T) {
+		const newData = this.getData(storageType);
 		newData.push(answer);
-		return localStorage.setItem(this.name, JSON.stringify(newData));
+		return localStorage.setItem(storageType, JSON.stringify(newData));
 	}
 }
