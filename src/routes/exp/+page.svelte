@@ -12,7 +12,7 @@
 	const listOfBasicEmotion = ['Anger', 'Disgust', 'Fear', 'Happiness', 'Neutrality', 'Sadness'];
 
 	onMount(() => {
-		index = storage.getData('facialExpressionAnswer').length;
+		index = storage.getData<ImageQuestionWithAnswer[]>('facialExpressionAnswer')?.length ?? 0;
 	});
 
 	async function sendData(data: ImageQuestionWithAnswer[]) {
@@ -32,20 +32,19 @@
 		};
 
 		const isDataSubmitted = storage.getData<boolean>('dataSubmitted');
-
 		if (index !== imageSource.length) {
-			storage.setData('facialExpressionAnswer', data);
+			storage.setArray('facialExpressionAnswer', data);
 			return index++;
 		}
 
 		if (!isDataSubmitted) {
-			const finalData = storage.getData<ImageQuestionWithAnswer>('facialExpressionAnswer');
+			const finalData = storage.getData<ImageQuestionWithAnswer[]>('facialExpressionAnswer');
 			await sendData(finalData);
-			storage.setData('dataSubmitted', true);
-			return goto('/end');
+			storage.setBoolean('dataSubmitted', true);
+			goto('/end');
 		}
 
-		return goto('/results');
+		goto('/results');
 	}
 
 	$: imagesRef = imageSource[index];
@@ -53,7 +52,7 @@
 
 <svelte:head>
 	<title>Badanie</title>
-	<meta name="description" content="Opis badania" />
+	<meta name="description" content="Opis testu" />
 </svelte:head>
 <section class="section">
 	<div class="image-container">
@@ -64,6 +63,9 @@
 			<button class="button" on:click={() => handleAnswer(emotion)}>{emotion}</button>
 		{/each}
 	</div>
+	<div class="progress-indicator">
+		{index + 1} / <span>{imageSource.length}</span>
+	</div>
 </section>
 
 <style>
@@ -73,6 +75,7 @@
 		display: flex;
 		flex-direction: row;
 		overflow: hidden;
+		position: relative;
 	}
 
 	.image {
@@ -105,5 +108,11 @@
 
 	.button:hover {
 		border: 2px solid var(--color-theme-1);
+	}
+
+	.progress-indicator {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
 	}
 </style>
