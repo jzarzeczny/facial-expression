@@ -2,7 +2,7 @@
 	import { imageSource } from '$lib/config/imageConfig';
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
 	import { onMount } from 'svelte';
-	import Storage from './Storage';
+	import Storage from '$lib/utils/Storage';
 	import { goto } from '$app/navigation';
 
 	let index = 0;

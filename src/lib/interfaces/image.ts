@@ -14,3 +14,7 @@ export interface Results extends ImageQuestionWithAnswer {
 	correctEmotion: Emotions;
 	answers: ChartInterface;
 }
+
+export interface UserAnswersObject {
+	[key: string]: ImageQuestionWithAnswer;
+}
