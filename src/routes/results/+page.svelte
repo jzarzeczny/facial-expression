@@ -1,13 +1,33 @@
 <script lang="ts">
 	import ResultCard from '$lib/components/ResultCard.svelte';
-	import type { Results } from '$lib/interfaces/image';
+	import type { ImageQuestionWithAnswer, Results, UserAnswersObject } from '$lib/interfaces/image';
 	import type { CorrectAnswer, IncorrectAnswer } from '$lib/interfaces/information';
+	import Storage from '$lib/utils/Storage';
+	import { onMount } from 'svelte';
 
 	export let data: CorrectAnswer<Results> | IncorrectAnswer;
-	let answers: Results[];
 
+	const storage = new Storage();
+
+	let answers: Results[];
+	let userAnswers: UserAnswersObject;
 	if (data.message === 'Success') {
 		answers = data.data;
+	}
+
+	onMount(() => {
+		const userData = storage.getData<ImageQuestionWithAnswer[]>('facialExpressionAnswer');
+		userAnswers = changeUserAnswersToArray(userData);
+		console.log(userAnswers);
+	});
+
+	function changeUserAnswersToArray(userAnswers: ImageQuestionWithAnswer[]) {
+		return userAnswers.reduce((acc: UserAnswersObject, userAnswer: ImageQuestionWithAnswer) => {
+			const key = Object.keys(userAnswer)[2] as keyof ImageQuestionWithAnswer;
+			const imageNameKey = userAnswer[key];
+			acc[imageNameKey] = userAnswer;
+			return acc;
+		}, {});
 	}
 </script>
 
@@ -26,13 +46,14 @@
 	</div>
 	{#if answers}
 		{#each answers as singleData}
-			<ResultCard {singleData} />{/each}
+			<ResultCard {singleData} {userAnswers} />{/each}
 	{/if}
 </div>
 
 <style>
 	.resultsContainer {
 		scroll-snap-type: x mandatory;
+		max-width: 100%;
 	}
 
 	.titleContainer {
