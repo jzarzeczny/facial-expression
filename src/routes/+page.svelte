@@ -2,6 +2,15 @@
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import type { ImageQuestionWithAnswer } from '$lib/interfaces/image';
+	import { onMount } from 'svelte';
+	import Storage from '$lib/utils/Storage';
+
+	let userAnswers: ImageQuestionWithAnswer[];
+
+	onMount(() => {
+		const storage = new Storage();
+		userAnswers = storage.getData<ImageQuestionWithAnswer[]>('dataSubmitted');
+	});
 </script>
 
 <svelte:head>
@@ -21,8 +30,10 @@
 
 	<div class="button-container">
 		<a href="instruction" class="button">Badanie</a>
-		<div class="separator"></div>
-		<a href="results" class="button">Wyniki</a>
+		{#if userAnswers}
+			<div class="separator"></div>
+			<a href="results" class="button">Wyniki</a>
+		{/if}
 	</div>
 </section>
 
