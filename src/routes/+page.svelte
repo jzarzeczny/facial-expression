@@ -18,15 +18,11 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-	</h1>
+<section class="main-section">
+	<div>
+		<h1 class="header">Obiad czwartkowy</h1>
+		<p class="sub-header">Czy eksprecje mimiczne są uniwersalne?</p>
+	</div>
 
 	<div class="button-container">
 		<a href="instruction" class="button">Badanie</a>
@@ -35,9 +31,24 @@
 			<a href="results" class="button">Wyniki</a>
 		{/if}
 	</div>
+	<div></div>
 </section>
 
 <style>
+	.main-section {
+		display: flex;
+		height: 100%;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+	.header {
+		font-size: 48px;
+	}
+
+	.sub-header {
+		font-size: 32px;
+		text-align: center;
+	}
 	section {
 		flex: 1;
 		display: flex;
@@ -47,26 +58,6 @@
 		max-width: 64rem;
 		margin: 0 auto;
 		box-sizing: border-box;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 
 	.button-container {
